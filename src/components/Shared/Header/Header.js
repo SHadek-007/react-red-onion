@@ -6,8 +6,8 @@ import { Link } from "react-router-dom";
 
 const Header = () => {
   return (
-    <div>
-      <Navbar collapseOnSelect expand="lg"  variant="light">
+    <>
+      <Navbar collapseOnSelect expand="lg" sticky="top" variant="light">
         <Container>
           <Navbar.Brand as={Link} to="/"><img style={{height:'32px'}} className="w-100" src={logo} alt="Red Onion Logo" /></Navbar.Brand>
           <Navbar.Toggle aria-controls="responsive-navbar-nav" />
@@ -20,7 +20,7 @@ const Header = () => {
           </Navbar.Collapse>
         </Container>
       </Navbar>
-    </div>
+    </>
   );
 };
 
