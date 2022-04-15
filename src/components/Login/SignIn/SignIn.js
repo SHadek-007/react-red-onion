@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
+import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
+import auth from "../../../firebase.init";
 import logo from '../../../images/logo2.png';
 import SocialLogin from "../SocialLogin/SocialLogin";
 import './SignIn.css';
@@ -8,8 +10,16 @@ import './SignIn.css';
 const SignIn = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [
+    signInWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useSignInWithEmailAndPassword(auth);
   const navigate = useNavigate();
-
+  if(user){
+    navigate('/');
+  }
     const handleEmailBlur = (e) =>{
       setEmail(e.target.value);
     };
@@ -21,7 +31,7 @@ const SignIn = () => {
     };
     const handleFormSubmit = (e) =>{
       e.preventDefault();
-      console.log(email,password);
+      signInWithEmailAndPassword(email, password)
     }
   return (
     <div className="login-container p-4 rounded">

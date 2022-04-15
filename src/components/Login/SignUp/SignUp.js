@@ -3,24 +3,50 @@ import { Button, Form } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import logo from '../../../images/logo2.png';
 import SocialLogin from "../SocialLogin/SocialLogin";
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import  auth  from "../../../firebase.init";
+import { useUpdateProfile } from 'react-firebase-hooks/auth';
 
 const SignUp = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [displayName, setDisplayName] = useState('');
+  const [
+    createUserWithEmailAndPassword,
+    user,
+    loading,
+    error,
+  ] = useCreateUserWithEmailAndPassword(auth,{sendEmailVerification:true});
+
+  const [updateProfile, updating, error1] = useUpdateProfile(auth);
+
   const navigate = useNavigate();
 
+  if(user){
+    navigate('/');
+    console.log(user);
+  }
+  const handleNameBlur = (e) =>{
+    setDisplayName(e.target.value);
+  };
   const handleEmailBlur = (e) => {
     setEmail(e.target.value);
   };
   const handlePasswordBlur = (e) => {
     setPassword(e.target.value);
   };
+  const handleConfirmPassword = (e) =>{
+    setConfirmPassword(e.target.value);
+  }
   const navigateToSignIn = (e) => {
     navigate("/signin");
   };
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault();
-    console.log(email, password);
+    await createUserWithEmailAndPassword(email, password);
+    await updateProfile({ displayName});
+    console.log('Updated profile');
   };
   return (
     <div className="login-container p-4 rounded">
@@ -29,7 +55,7 @@ const SignUp = () => {
       </div>
       <Form onSubmit={handleFormSubmit}>
         <Form.Group className="mb-3" controlId="formBasicText">
-          <Form.Control onBlur={handleEmailBlur} type="text" placeholder="Name" required/>
+          <Form.Control onBlur={handleNameBlur} type="text" placeholder="Name"/>
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicEmail">
           <Form.Control onBlur={handleEmailBlur} type="email" placeholder="Email" required/>
@@ -45,10 +71,9 @@ const SignUp = () => {
         </Form.Group>
         <Form.Group className="mb-3" controlId="formBasicPassword">
           <Form.Control
-            onBlur={handlePasswordBlur}
+            onBlur={handleConfirmPassword}
             type="password"
             placeholder="Confirm Password"
-            required
           />
         </Form.Group>
         {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
