@@ -1,0 +1,38 @@
+.btn-container .google{
+    width: 400px;
+    height: 50px;
+    border: 1px solid #F91944;
+    border-radius: 50px;
+    background-color: white;
+}
+.btn-container .google:hover{
+    font-weight: 600;
+    border: 2px solid #F91944;
+}
+.btn-container .fb{
+    width: 400px;
+    height: 50px;
+    color: white;
+    border: 1px solid #054a94;
+    border-radius: 50px;
+    background-color: #0572E6;
+}
+.btn-container .fb:hover{
+    font-weight: 600;
+    border: 2px solid #054a94;
+    background-color: #054a94;
+}
+.btn-container .git{
+    width: 400px;
+    height: 50px;
+    color: black;
+    border: 1px solid black;
+    border-radius: 50px;
+    background-color: white;
+}
+.btn-container .git:hover{
+    color: white;
+    background-color: black;
+    font-weight: 600;
+    border: 2px solid rgb(12, 12, 12);
+}
