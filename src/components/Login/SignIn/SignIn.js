@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, Form } from "react-bootstrap";
-import { useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
+import { useSendPasswordResetEmail, useSignInWithEmailAndPassword } from "react-firebase-hooks/auth";
 import { useNavigate } from "react-router-dom";
 import auth from "../../../firebase.init";
 import logo from '../../../images/logo2.png';
@@ -16,6 +16,16 @@ const SignIn = () => {
     loading,
     error,
   ] = useSignInWithEmailAndPassword(auth);
+
+  const [sendPasswordResetEmail, sending] = useSendPasswordResetEmail(auth);
+
+  let errorElement;
+  if (error) {
+    errorElement = 
+      <div>
+        <p className="text-danger">Error: {error?.message}</p>
+      </div>
+  };
   const navigate = useNavigate();
   if(user){
     navigate('/');
@@ -29,6 +39,10 @@ const SignIn = () => {
     const navigateToSignUp = (e) =>{
       navigate('/signup');
     };
+    const resetPassword = async ()=>{
+      await sendPasswordResetEmail(email);
+      alert('Sent email');
+    }
     const handleFormSubmit = (e) =>{
       e.preventDefault();
       signInWithEmailAndPassword(email, password)
@@ -54,6 +68,8 @@ const SignIn = () => {
         </Button>
       </Form>
       <p className="mt-3">New to Red Onion? <span className="text-danger" style={{cursor:'pointer'}} onClick={navigateToSignUp}>Please Sign Up</span></p>
+      <p className="mt-3">Forget Password? <span className="text-danger" style={{cursor:'pointer'}} onClick={resetPassword}>Reset Password</span></p>
+      {errorElement}
       <SocialLogin></SocialLogin>
     </div>
   );

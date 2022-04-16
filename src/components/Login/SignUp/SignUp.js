@@ -12,6 +12,8 @@ const SignUp = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [displayName, setDisplayName] = useState('');
+  const [agree, setAgree] = useState(false);
+
   const [
     createUserWithEmailAndPassword,
     user,
@@ -26,7 +28,7 @@ const SignUp = () => {
   if(user){
     navigate('/');
     console.log(user);
-  }
+  };
   const handleNameBlur = (e) =>{
     setDisplayName(e.target.value);
   };
@@ -44,10 +46,13 @@ const SignUp = () => {
   };
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    await createUserWithEmailAndPassword(email, password);
+    if(agree){
+    await createUserWithEmailAndPassword(email, password, confirmPassword);
     await updateProfile({ displayName});
-    console.log('Updated profile');
+    }
+    // console.log('Updated profile');
   };
+
   return (
     <div className="login-container p-4 rounded">
       <div className="text-center mb-4">
@@ -76,10 +81,10 @@ const SignUp = () => {
             placeholder="Confirm Password"
           />
         </Form.Group>
-        {/* <Form.Group className="mb-3" controlId="formBasicCheckbox">
-          <Form.Check type="checkbox" label="Check me out" />
-        </Form.Group> */}
-        <Button
+        <Form.Group className="mb-3" controlId="formBasicCheckbox">
+          <Form.Check className={agree ? 'text-dark': 'text-secondary'} onClick={()=>setAgree(!agree)} type="checkbox" name="terms" id="terms" label="Accept Terms & Conditions" />
+        </Form.Group>
+        <Button disabled={!agree}
           variant="danger"
           className="w-50 d-block mx-auto fs-5"
           type="submit"
@@ -88,7 +93,7 @@ const SignUp = () => {
         </Button>
       </Form>
       <p className="mt-3">
-        New to Red Onion?{" "}
+        Already Have an Account?{" "}
         <span
           className="text-danger"
           style={{ cursor: "pointer" }}
