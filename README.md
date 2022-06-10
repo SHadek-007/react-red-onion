@@ -1,6 +1,6 @@
-# Getting Started with Create React App
+# Red Onion
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+[Live Site Link](https://react-red-onion-f44cb.web.app/)
 
 ## Available Scripts
 
